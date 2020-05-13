@@ -1,24 +1,26 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import db from "./firebaseConfig";
+
+db.collection("users")
+  .add({
+    first: "Ada",
+    last: "Lovelace",
+    born: 1815,
+  })
+  .then(function (docRef) {
+    console.log("Document written with ID: ", docRef.id);
+  })
+  .catch(function (error) {
+    console.error("Error adding document: ", error);
+  });
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <input type="file" name="assignments" />
+      <button className="btn btn-primary" name="Submit">
+        submit
+      </button>
     </div>
   );
 }
