@@ -1,34 +1,52 @@
 import React from "react";
 import db from "./firebaseConfig";
 
-function App() {
-  const firestoreHandler = () => {
-    db.collection("users")
-      .add({
-        first: "Ada",
-        last: "Lovelace",
-        born: 1815,
-      })
-      .then(function (docRef) {
-        console.log("Document written with ID: ", docRef.id);
-      })
-      .catch(function (error) {
-        console.error("Error adding document: ", error);
-      });
+class App extends React.Component {
+  state = {
+    email: "",
+    name: "",
   };
 
-  return (
-    <div>
-      <input type="file" name="assignments" />
-      <button
-        className="btn btn-primary"
-        name="Submit"
-        onchange={firestoreHandler}
-      >
-        submit
-      </button>
-    </div>
-  );
+  UpdateUser = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  firestoreHandler = (e) => {
+    e.preventDefault();
+    this.setState({
+      email: "",
+      name: "",
+    });
+
+    db.collection("users").add({
+      email: this.state.email,
+      name: this.state.name,
+    });
+  };
+
+  render() {
+    return (
+      <form onSubmit={this.firestoreHandler}>
+        <input
+          type="text"
+          name="name"
+          value={this.state.name}
+          onChange={this.UpdateUser}
+        />
+        <br />
+        <input
+          type="text"
+          name="email"
+          value={this.state.email}
+          onChange={this.UpdateUser}
+        />
+        <br />
+        <button name="Submit">submit</button>
+      </form>
+    );
+  }
 }
 
 export default App;
